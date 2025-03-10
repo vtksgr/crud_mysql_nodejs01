@@ -1,0 +1,20 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">edit</li>
+  </ol>
+</nav>
+
+<!-- alert after edit -->
+{{#if alert }}
+<div class="alert alert-primary" role="alert">
+  {{alert}}
+</div>
+{{/if}}
+
+<!-- form -->
+{{#each rows}}
+<form class="needs-validation" method="POST" action="/edituser/{{this.id}}">
+ {{> userform}}
+{{/each}}
+</form>
