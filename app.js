@@ -1,8 +1,9 @@
 const express = require('express');
 const { engine } = require('express-handlebars');
+const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mysql2 = require('mysql2');
-const connection = require('mysql/lib/Connection');
+
 
 require('dotenv').config();
 
@@ -21,7 +22,17 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 //templating engine
-app.engine('hbs', engine({ extname: '.hbs' }));
+app.engine(
+    'hbs',
+    handlebars.engine({
+      extname: '.hbs',
+      helpers: {
+        eq: function (a, b) {
+          return a === b;
+        },
+      },
+    })
+  );
 app.set('view engine', 'hbs');
 
 //pool connection

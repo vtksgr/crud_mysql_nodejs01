@@ -68,7 +68,7 @@ exports.form = (req, res)=>{
 
 //add user
 exports.create = (req, res) =>{
-    const { first_name, last_name, email, phone, comment } = req.body
+    const { first_name, last_name, email, phone, comment, status} = req.body
 
 
     pool.getConnection((err, connection) =>{
@@ -76,7 +76,7 @@ exports.create = (req, res) =>{
         //console.log('useController Connection successfull' + connection.threadId);
 
         //making a query 
-        connection.query('INSERT INTO users (first_name, last_name, email, phone, comment) VALUES (?, ?, ?, ?, ?)', [first_name, last_name, email, phone, comment], (err, rows) =>{
+        connection.query('INSERT INTO users (first_name, last_name, email, phone, comment, status) VALUES (?, ?, ?, ?, ?, ?)', [first_name, last_name, email, phone, comment, status], (err, rows) =>{
             // when done the connention, release it
             connection.release();
     
@@ -102,48 +102,28 @@ exports.edit = (req, res) =>{
             // when done the connention, release it
             connection.release();
     
-            if(!err){
-                res.render('edituser', {rows})
-            }else{
-                console.log(err)
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).send('Internal Server Error');
             }
-            //console.log('data from the table user table: \n', rows)
-        } )
-    });
-}
-
-//edit single user
-//edit user
-exports.viewEdit = (req, res) =>{
-    //res.render('edituser')
-    pool.getConnection((err, connection) =>{
-        if(err) throw err;
-        //console.log('useController Connection successfull' + connection.threadId)
-
-        //making a query 
-        connection.query('SELECT * FROM users WHERE id = ?', [req.params.id], (err, rows) =>{
-            // when done the connention, release it
-            connection.release();
-    
-            if(!err){
-                res.render('edituser', {rows})
-            }else{
-                console.log(err)
+            // Check if a user was found
+            if (rows.length === 0) {
+                return res.status(404).send('User not found');
             }
-            //console.log('data from the table user table: \n', rows)
+            res.render('edituser', { user: rows[0] }); // Pass rows[0] as "user"
         } )
     });
 }
 
 //update user
 exports.update = (req, res) =>{
-    const { first_name, last_name, email, phone, comment } = req.body;
+    const { first_name, last_name, email, phone, comment, status } = req.body;
 
     pool.getConnection((err, connection) =>{
         if(err) throw err;
   
-        connection.query('UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, comment = ? WHERE id = ?', 
-            [first_name, last_name, email, phone, comment, req.params.id], (err, rows) =>{
+        connection.query('UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, comment = ?, status = ? WHERE id = ?', 
+            [first_name, last_name, email, phone, comment, status, req.params.id], (err, rows) =>{
             // when done the connention, release it
             connection.release();
     
@@ -156,7 +136,7 @@ exports.update = (req, res) =>{
                         connection.release();
                 
                         if(!err){
-                            res.render('edituser', {rows, alert: `${first_name} has been updated.`})
+                            res.render('edituser', {rows, user: rows[0], alert: `${first_name} has been updated.`})
                         }else{
                             console.log(err)
                         }

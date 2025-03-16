@@ -1,27 +1,36 @@
  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">First name</label>
-    <input type="text" value="{{this.first_name}}" class="form-control" id="exampleInputEmail1" name="first_name">
-  </div>
+   <label for="exampleInputEmail1" class="form-label">First name</label>
+   <input type="text" value="{{this.first_name}}" class="form-control" id="exampleInputEmail1" name="first_name">
+ </div>
 
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Last name</label>
-    <input type="text" value="{{this.last_name}}" class="form-control" id="exampleInputEmail1" name="last_name">
-  </div>
+ <div class="mb-3">
+   <label for="exampleInputEmail1" class="form-label">Last name</label>
+   <input type="text" value="{{this.last_name}}" class="form-control" id="exampleInputEmail1" name="last_name">
+ </div>
 
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" value="{{this.email}}" class="form-control" id="exampleInputEmail1" name="email">
-  </div>
+ <div class="mb-3">
+   <label for="exampleInputEmail1" class="form-label">Email address</label>
+   <input type="email" value="{{this.email}}" class="form-control" id="exampleInputEmail1" name="email">
+ </div>
+
+ <div class="mb-3">
+   <label for="exampleInputEmail1" class="form-label">Phone Number</label>
+   <input type="text" value="{{this.phone}}" class="form-control" id="exampleInputEmail1" name="phone">
+ </div>
 
 <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Phone Number</label>
-    <input type="text" value="{{this.phone}}" class="form-control" id="exampleInputEmail1" name="phone">
-  </div>
+  <label for="status" class="form-label">Status</label>
+  <select class="form-control" id="status" name="status" required>
+    <option value="pending" {{#if (eq user.status 'pending')}}selected{{/if}}>Pending</option>
+    <option value="approved" {{#if (eq user.status 'approved')}}selected{{/if}}>Approved</option>
+    <option value="rejected" {{#if (eq user.status 'rejected')}}selected{{/if}}>Rejected</option>
+  </select>
+</div>
 
-    <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Comments</label>
-    <textarea type="textarea" class="form-control" id="exampleInputEmail1" name="comment" style="height: 200px;">{{this.comment}}</textarea>
-  </div>
+ <div class="mb-3">
+   <label for="exampleInputEmail1" class="form-label">Comments</label>
+   <textarea type="textarea" class="form-control" id="exampleInputEmail1" name="comment"
+     style="height: 200px;">{{this.comment}}</textarea>
+ </div>
 
-
-  <button type="submit" class="btn btn-primary">Submit</button>
+ <button type="submit" class="btn btn-primary">Submit</button>
